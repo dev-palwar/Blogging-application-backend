@@ -1,4 +1,5 @@
-const User = require("../../Models/Users");
+const { genrateJwtToken } = require("../../lib/jwt");
+const User = require("../Models/Users");
 const bcrypt = require("bcrypt");
 
 async function createUser(params) {
@@ -22,15 +23,19 @@ async function createUser(params) {
 
 async function authenticateUser(email, password) {
   try {
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email });
     if (!user) {
       throw new Error("No user found with this email");
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      throw new Error("Incorrect password");
+      throw new Error("Incorrect password or email");
     }
+
+    // Genrating JWT token
+    const token = await genrateJwtToken(user);
+    console.log(token);
 
     return user;
   } catch (error) {

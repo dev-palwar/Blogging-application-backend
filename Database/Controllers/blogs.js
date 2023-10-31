@@ -1,4 +1,4 @@
-const { Blog } = require("../../Models/Blogs");
+const Blog  = require("../Models/Blogs");
 
 async function getBlogById(id) {
   try {

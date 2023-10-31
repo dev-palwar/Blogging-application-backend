@@ -1,9 +1,9 @@
-const { getBlogById } = require("../../Database/Controllers/blogs");
-const { Blog } = require("../../Models/Blogs");
+const { getBlogById } = require("../../../Database/Controllers/blogs");
+const Blog = require("../../../Database/Controllers/blogs");
 
 const blogResolvers = {
   Query: {
-    findBlog: (_, args) => {
+    findBlog: (_, args, context) => {
       return getBlogById(args.id);
     },
   },

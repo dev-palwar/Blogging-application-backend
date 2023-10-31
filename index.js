@@ -1,16 +1,12 @@
-const { ApolloServer } = require("apollo-server");
+const dotenv = require("dotenv");
 const connectDatabase = require("./Database/Config");
-const { userTypeDefs } = require("./Schemas/Users/type-defs");
-const { userResolvers } = require("./Schemas/Users/resolvers");
-const { blogTypeDef } = require("./Schemas/Blogs/type-defs");
-const { blogResolvers } = require("./Schemas/Blogs/resolvers");
+const graphqlInit = require("./GraphQl/server");
 
-const server = new ApolloServer({
-  typeDefs: [userTypeDefs, blogTypeDef],
-  resolvers: [userResolvers, blogResolvers],
-});
+// initializes enviorment variables
+dotenv.config();
+
+// Connects the MongoDb
 connectDatabase();
 
-server.listen().then(({ url }) => {
-  console.log(`Server running smooth at: ${url}`);
-});
+// initializes the GraphQl server
+graphqlInit();

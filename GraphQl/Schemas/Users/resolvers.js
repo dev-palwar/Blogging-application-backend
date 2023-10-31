@@ -1,18 +1,18 @@
 const {
   authenticateUser,
   createUser,
-} = require("../../Database/Controllers/users");
+} = require("../../../Database/Controllers/users");
 
 const userResolvers = {
   Query: {
-    getUser: async (_, args) => {
+    login: async (_, args) => {
       const { email, password } = args.input;
       return authenticateUser(email, password);
     },
   },
 
   Mutation: {
-    createUser: async (_, args) => {
+    signUp: async (_, args) => {
       const { input } = args;
       return createUser(input);
     },
