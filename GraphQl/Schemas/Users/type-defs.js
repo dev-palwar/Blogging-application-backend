@@ -11,6 +11,7 @@ const userTypeDefs = gql`
 
   type Query {
     login(input: login): User
+    hello : String
   }
 
   input login {

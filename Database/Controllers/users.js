@@ -17,7 +17,7 @@ async function createUser(params) {
     });
     return resFromDB;
   } catch (error) {
-    return error.message;
+    throw new Error(error.message);
   }
 }
 

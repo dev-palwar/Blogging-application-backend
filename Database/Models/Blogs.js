@@ -13,8 +13,20 @@ const blogSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  upvotes: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+      },
+    },
+  ],
+  Author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "users",
+  },
 });
 
 const Blog = mongoose.model("Blog", blogSchema);
 
-module.exports = Blog ;
+module.exports = Blog;
