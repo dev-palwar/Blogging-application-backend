@@ -4,3 +4,7 @@ hello: (parent, args, { loggedInUser }) => {
   }
   return `Hello ${loggedInUser.email}`;
 };
+
+blog.comments[commentIndex].upvotes.push({ user: loggedInUser });
+blog.save();
+return sendResponse("Comment upvoted", true);

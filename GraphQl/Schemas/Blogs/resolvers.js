@@ -3,6 +3,9 @@ const {
   createBlogInDB,
   deleteBlogFromDB,
   updateUpvotesBlogInDB,
+  addCommentToBlogInDB,
+  deleteCommentFromBlogInDB,
+  upvoteCommentInDB,
 } = require("../../../Database/Controllers/blogs");
 
 const blogResolvers = {
@@ -20,6 +23,15 @@ const blogResolvers = {
     },
     upvoteOrDownvoteBlog: (_, args, { loggedInUser }) => {
       return updateUpvotesBlogInDB(args.blogId, loggedInUser.userId);
+    },
+    addCommentToBlog: (_, args, { loggedInUser }) => {
+      return addCommentToBlogInDB(args.input, loggedInUser.userId);
+    },
+    upvoteComment: (_, args, { loggedInUser }) => {
+      return upvoteCommentInDB(args, loggedInUser.userId);
+    },
+    deleteCommentFromBlog: (_, args, { loggedInUser }) => {
+      return deleteCommentFromBlogInDB(args.input, loggedInUser.userId);
     },
   },
 };
