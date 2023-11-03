@@ -18,17 +18,19 @@ const userTypeDefs = gql`
     email: String!
     password: String!
   }
-
-  type Mutation {
-    signUp(input: signUp): User
-  }
-
+  
   input signUp {
     name: String!
     email: String!
     password: String
     nationality: String!
   }
+
+  type Mutation {
+    signUp(input: signUp!): User
+    followUnfollowUser(id: ID!): Response
+  }
+
 `;
 
 module.exports = { userTypeDefs };

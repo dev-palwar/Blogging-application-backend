@@ -2,7 +2,7 @@ const {
   findBlogInDB,
   createBlogInDB,
   deleteBlogFromDB,
-  updateUpvotesBlogInDB,
+  updateBlogUpvotesInDB,
   addCommentToBlogInDB,
   deleteCommentFromBlogInDB,
   upvoteCommentInDB,
@@ -16,13 +16,14 @@ const blogResolvers = {
   },
   Mutation: {
     createBlog: (_, args, { loggedInUser }) => {
+      // console.log(args.input);
       return createBlogInDB(args.input, loggedInUser.userId);
     },
     deleteBlog: (_, args, { loggedInUser }) => {
       return deleteBlogFromDB(args.id, loggedInUser.userId);
     },
     upvoteOrDownvoteBlog: (_, args, { loggedInUser }) => {
-      return updateUpvotesBlogInDB(args.blogId, loggedInUser.userId);
+      return updateBlogUpvotesInDB(args.blogId, loggedInUser.userId);
     },
     addCommentToBlog: (_, args, { loggedInUser }) => {
       return addCommentToBlogInDB(args.input, loggedInUser.userId);

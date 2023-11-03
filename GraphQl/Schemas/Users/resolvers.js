@@ -1,6 +1,7 @@
 const {
   authenticateUser,
-  createUser,
+  createUserInDB,
+  followUnfollowUserInDB,
 } = require("../../../Database/Controllers/users");
 const { sayHello } = require("../../../lib/temp");
 
@@ -10,15 +11,18 @@ const userResolvers = {
       const { email, password } = args.input;
       return authenticateUser(email, password);
     },
-    hello: (parent, args, { loggedInUser }) => {
+    hello: (parent, args, { loggedInUser }, info) => {
       return sayHello(loggedInUser);
     },
   },
 
   Mutation: {
-    signUp: async (_, args) => {
+    signUp: (_, args) => {
       const { input } = args;
-      return createUser(input);
+      return createUserInDB(input);
+    },
+    followUnfollowUser: (_, args, { loggedInUser }) => {
+      return followUnfollowUserInDB(args.id, loggedInUser.userId)
     },
   },
 };

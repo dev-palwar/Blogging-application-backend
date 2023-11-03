@@ -1,8 +1,9 @@
 const { genrateJwtToken } = require("../../lib/jwt");
+const sendResponse = require("../../lib/response");
 const User = require("../Models/Users");
 const bcrypt = require("bcrypt");
 
-async function createUser(params) {
+async function createUserInDB(params) {
   const response = await User.findOne({ email: params.email });
 
   if (response) return "User already exists";
@@ -43,4 +44,31 @@ async function authenticateUser(email, password) {
   }
 }
 
-module.exports = { authenticateUser, createUser };
+async function followUnfollowUserInDB(userToBeFollowed, loggedInUser) {
+  try {
+    const user = await User.findOne({ _id: loggedInUser });
+    const user2 = await User.findOne({ _id: userToBeFollowed });
+
+    const index = user.following.findIndex(
+      (item) => item._id.toString() === userToBeFollowed
+    );
+
+    if (index == -1) {
+      user.following.push(user2._id);
+      user2.followers.push(user._id);
+      await user.save();
+      await user2.save();
+      return sendResponse("User followed", true);
+    } else {
+      user.following.splice(index, 1);
+      user2.followers.splice(index, 1);
+      await user.save();
+      await user2.save();
+      return sendResponse("User unfollowed", true);
+    }
+  } catch (error) {
+    throw new Error("User not found");
+  }
+}
+
+module.exports = { authenticateUser, createUserInDB, followUnfollowUserInDB };

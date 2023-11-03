@@ -25,6 +25,22 @@ const userSchema = new mongoose.Schema({
       ref: "blogs",
     },
   ],
+  followers: [
+    {
+      user: {
+        type: String,
+        ref: "users"
+      },
+    },
+  ],
+  following: [
+    {
+      user: {
+        type: String,
+        ref: "users"
+      },
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,

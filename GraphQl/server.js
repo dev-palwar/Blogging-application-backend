@@ -1,5 +1,4 @@
 const { ApolloServer } = require("apollo-server");
-const jwt = require("jsonwebtoken");
 const { userTypeDefs } = require("../GraphQl/Schemas/Users/type-defs");
 const { userResolvers } = require("../GraphQl/Schemas/Users/resolvers");
 const { blogTypeDef } = require("../GraphQl/Schemas/Blogs/type-defs");

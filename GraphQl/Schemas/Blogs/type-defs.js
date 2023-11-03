@@ -3,15 +3,29 @@ const { gql } = require("apollo-server");
 const blogTypeDef = gql`
   type Blog {
     id: ID!
+    poster: String
     title: String!
     description: String!
+    Author: String
+    category: [Category!]
     tags: [String]
-    upvotes: [upvotes]
+    upvotes: [Upvotes]
     comments: [Comment]
-    createdAt: Int!
+    createdAt: String!
   }
 
-  type upvotes {
+  enum Category {
+    PROGRAMMING
+    ANIME
+    MEDIA
+    SELF_IMPROVEMENT
+    RELATIONSHIP
+    DARK
+    POLITICS
+    GAMING
+  }
+
+  type Upvotes {
     user: String!
   }
 
@@ -19,8 +33,8 @@ const blogTypeDef = gql`
     id: ID!
     comment: String!
     user: String!
-    upvotes: [upvotes]
-    createdAt: Int!
+    upvotes: [Upvotes]
+    createdAt: String!
   }
 
   type Response {
@@ -29,9 +43,11 @@ const blogTypeDef = gql`
   }
 
   input BlogInput {
+    poster: String
     title: String!
     description: String!
     tags: [String]
+    category: [Category]
   }
 
   input CommentInput {

@@ -1,5 +1,6 @@
 const sendResponse = require("../../lib/response");
 const Blog = require("../Models/Blogs");
+const User = require("../Models/Users");
 
 const findUsersBlog = async (blogId, loggedInUser) => {
   const blog = await Blog.findOne({ _id: blogId, Author: loggedInUser });
@@ -20,13 +21,18 @@ async function findBlogInDB(id) {
 
 async function createBlogInDB(blogObject, loggedInUser) {
   try {
-    const { title, description, tags } = blogObject;
+    const { poster, title, description, tags, category } = blogObject;
     const resFromDB = new Blog({
+      poster,
       title,
       description,
       Author: loggedInUser,
       tags,
+      category,
     });
+    const user = await User.findById(loggedInUser);
+    user.blogs.push(resFromDB._id);
+    await user.save();
     await resFromDB.save();
     return resFromDB;
   } catch (error) {
@@ -34,7 +40,7 @@ async function createBlogInDB(blogObject, loggedInUser) {
   }
 }
 
-async function updateUpvotesBlogInDB(blogId, loggedInUser) {
+async function updateBlogUpvotesInDB(blogId, loggedInUser) {
   const blog = await findBlogInDB(blogId);
   if (!blog) throw new Error("Blog not found");
 
@@ -59,9 +65,8 @@ async function updateUpvotesBlogInDB(blogId, loggedInUser) {
   }
 }
 
-async function addCommentToBlogInDB(commentObject, loggedInUser) {
+async function addCommentToBlogInDB({ blogId, comment }, loggedInUser) {
   try {
-    const { blogId, comment } = commentObject;
     let blog = await findBlogInDB(blogId);
     blog.comments.push({ comment, user: loggedInUser });
     await blog.save();
@@ -94,7 +99,7 @@ async function upvoteCommentInDB({ blogId, commentId }, loggedInUser) {
       return sendResponse("Comment upvoted", true);
     }
   } catch (error) {
-    return sendResponse("An error occurred", false);
+    return sendResponse("Internal server error", false);
   }
 }
 
@@ -128,7 +133,7 @@ async function deleteBlogFromDB(blogId, loggedInUser) {
 module.exports = {
   findBlogInDB,
   createBlogInDB,
-  updateUpvotesBlogInDB,
+  updateBlogUpvotesInDB,
   addCommentToBlogInDB,
   upvoteCommentInDB,
   deleteCommentFromBlogInDB,
