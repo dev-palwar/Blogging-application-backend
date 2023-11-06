@@ -6,7 +6,7 @@ const blogTypeDef = gql`
     poster: String
     title: String!
     description: String!
-    Author: String
+    Author: String!
     category: [Category!]
     tags: [String]
     upvotes: [Upvotes]
@@ -61,6 +61,7 @@ const blogTypeDef = gql`
   }
 
   type Query {
+    getAllBlogs: [Blog]!
     findBlog(id: ID): Blog!
   }
 

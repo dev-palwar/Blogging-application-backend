@@ -7,22 +7,27 @@ const { sayHello } = require("../../../lib/temp");
 
 const userResolvers = {
   Query: {
-    login: async (_, args) => {
-      const { email, password } = args.input;
-      return authenticateUser(email, password);
-    },
-    hello: (parent, args, { loggedInUser }, info) => {
-      return sayHello(loggedInUser);
+    hello: () => {
+      return "Hello client this is for you";
     },
   },
 
   Mutation: {
+    login: async (_, args) => {
+      try {
+        const { email, password } = args.input;
+        const { token, user } = await authenticateUser(email, password);
+        return { token, user };
+      } catch (error) {
+        throw new Error(`Login failed: ${error.message}`);
+      }
+    },
     signUp: (_, args) => {
       const { input } = args;
       return createUserInDB(input);
     },
     followUnfollowUser: (_, args, { loggedInUser }) => {
-      return followUnfollowUserInDB(args.id, loggedInUser.userId)
+      return followUnfollowUserInDB(args.id, loggedInUser.userId);
     },
   },
 };

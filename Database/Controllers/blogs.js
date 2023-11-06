@@ -2,6 +2,15 @@ const sendResponse = require("../../lib/response");
 const Blog = require("../Models/Blogs");
 const User = require("../Models/Users");
 
+const getAllBlogsFromDB = async () => {
+  try {
+    const blogs = await Blog.find();
+    return blogs;
+  } catch (error) {
+    throw new Error(`Error retrieving blogs: ${error.message}`);
+  }
+};
+
 const findUsersBlog = async (blogId, loggedInUser) => {
   const blog = await Blog.findOne({ _id: blogId, Author: loggedInUser });
   return blog;
@@ -131,6 +140,7 @@ async function deleteBlogFromDB(blogId, loggedInUser) {
 }
 
 module.exports = {
+  getAllBlogsFromDB,
   findBlogInDB,
   createBlogInDB,
   updateBlogUpvotesInDB,

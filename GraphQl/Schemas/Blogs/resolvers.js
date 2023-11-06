@@ -1,4 +1,5 @@
 const {
+  getAllBlogsFromDB,
   findBlogInDB,
   createBlogInDB,
   deleteBlogFromDB,
@@ -12,6 +13,9 @@ const blogResolvers = {
   Query: {
     findBlog: (_, args) => {
       return findBlogInDB(args.id);
+    },
+    getAllBlogs: () => {
+      return getAllBlogsFromDB();
     },
   },
   Mutation: {

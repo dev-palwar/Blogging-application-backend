@@ -1,4 +1,4 @@
-const { genrateJwtToken } = require("../../lib/jwt");
+const { generateJwtToken } = require("../../lib/jwt");
 const sendResponse = require("../../lib/response");
 const User = require("../Models/Users");
 const bcrypt = require("bcrypt");
@@ -22,27 +22,25 @@ async function createUserInDB(params) {
   }
 }
 
-async function authenticateUser(email, password) {
+const authenticateUser = async (email, password) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      throw new Error("No user found with this email");
+      throw new Error('No user found with this email');
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      throw new Error("Incorrect password or email");
+      throw new Error('Incorrect password or email');
     }
 
-    // Genrating JWT token
-    const token = await genrateJwtToken(user);
-    console.log(token);
-
-    return user;
+    // Generating JWT token
+    const token = await generateJwtToken(user);
+    return { token, user };
   } catch (error) {
     throw new Error(`Authentication failed: ${error.message}`);
   }
-}
+};
 
 async function followUnfollowUserInDB(userToBeFollowed, loggedInUser) {
   try {

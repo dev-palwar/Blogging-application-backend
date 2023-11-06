@@ -10,27 +10,31 @@ const userTypeDefs = gql`
   }
 
   type Query {
-    login(input: login): User
-    hello : String
+    hello: String!
   }
 
   input login {
     email: String!
     password: String!
   }
-  
+
   input signUp {
     name: String!
     email: String!
     password: String
     nationality: String!
   }
+  
+  type AuthPayload {
+    token: String!
+    user: User!
+  }
 
   type Mutation {
+    login(input: login!): AuthPayload!
     signUp(input: signUp!): User
     followUnfollowUser(id: ID!): Response
   }
-
 `;
 
 module.exports = { userTypeDefs };
