@@ -2,6 +2,7 @@ const {
   authenticateUser,
   createUserInDB,
   followUnfollowUserInDB,
+  getUsersBlogsFromDB,
 } = require("../../../Database/Controllers/users");
 const { sayHello } = require("../../../lib/temp");
 
@@ -9,6 +10,9 @@ const userResolvers = {
   Query: {
     hello: () => {
       return "Hello client this is for you";
+    },
+    getUsersBlogs: (_, args, { loggedInUser }) => {
+      return getUsersBlogsFromDB(loggedInUser.userId);
     },
   },
 

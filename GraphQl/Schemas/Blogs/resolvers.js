@@ -11,14 +11,14 @@ const {
 
 const blogResolvers = {
   Query: {
-    findBlog: (_, args) => {
-      return findBlogInDB(args.id);
-    },
     getAllBlogs: () => {
       return getAllBlogsFromDB();
     },
   },
   Mutation: {
+    findBlog: (_, args) => {
+      return findBlogInDB(args.id);
+    },
     createBlog: (_, args, { loggedInUser }) => {
       // console.log(args.input);
       return createBlogInDB(args.input, loggedInUser.userId);

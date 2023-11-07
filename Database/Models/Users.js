@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please enter your name"],
   },
+  avatar: String,
   email: {
     type: String,
     required: [true, "Please enter your email"],
@@ -29,7 +30,7 @@ const userSchema = new mongoose.Schema({
     {
       user: {
         type: String,
-        ref: "users"
+        ref: "User",
       },
     },
   ],
@@ -37,7 +38,7 @@ const userSchema = new mongoose.Schema({
     {
       user: {
         type: String,
-        ref: "users"
+        ref: "User",
       },
     },
   ],

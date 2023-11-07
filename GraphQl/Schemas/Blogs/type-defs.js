@@ -6,7 +6,7 @@ const blogTypeDef = gql`
     poster: String
     title: String!
     description: String!
-    Author: String!
+    Author: User
     category: [Category!]
     tags: [String]
     upvotes: [Upvotes]
@@ -62,10 +62,10 @@ const blogTypeDef = gql`
 
   type Query {
     getAllBlogs: [Blog]!
-    findBlog(id: ID): Blog!
   }
-
+  
   type Mutation {
+    findBlog(id: ID): Blog!
     createBlog(input: BlogInput!): Blog!
     deleteBlog(id: ID!): Response!
     upvoteOrDownvoteBlog(blogId: ID!): Response!

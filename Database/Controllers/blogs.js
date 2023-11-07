@@ -4,9 +4,10 @@ const User = require("../Models/Users");
 
 const getAllBlogsFromDB = async () => {
   try {
-    const blogs = await Blog.find();
+    const blogs = await Blog.find().populate('Author');
     return blogs;
   } catch (error) {
+    console.log(error.message);
     throw new Error(`Error retrieving blogs: ${error.message}`);
   }
 };
@@ -18,10 +19,8 @@ const findUsersBlog = async (blogId, loggedInUser) => {
 
 async function findBlogInDB(id) {
   try {
-    const resFromDB = await Blog.findById(id);
-    if (!resFromDB) {
-      throw new Error("Blog not found");
-    }
+    const resFromDB = await Blog.findById(id).populate('Author');
+    if (!resFromDB) throw new Error("Blog not found");
     return resFromDB;
   } catch (error) {
     throw new Error(`Failed to fetch blog with ID ${id}: ${error.message}`);

@@ -17,14 +17,14 @@ const blogSchema = new mongoose.Schema({
   category: [],
   Author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "users",
+    ref: "User",
   },
   tags: [],
   upvotes: [
     {
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "users",
+        ref: "User",
       },
     },
   ],
@@ -32,7 +32,7 @@ const blogSchema = new mongoose.Schema({
     {
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "users",
+        ref: "User",
       },
       comment: {
         type: String,
@@ -41,7 +41,7 @@ const blogSchema = new mongoose.Schema({
         {
           user: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "users",
+            ref: "User",
           },
         },
       ],

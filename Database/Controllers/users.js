@@ -1,18 +1,26 @@
 const { generateJwtToken } = require("../../lib/jwt");
 const sendResponse = require("../../lib/response");
 const User = require("../Models/Users");
+const Blogs = require("../Models/Blogs");
 const bcrypt = require("bcrypt");
+
+const userFromDB = async (loggedInUser) => {
+  const user = await User.findOne({ _id: loggedInUser });
+  if (!user) throw new Error("No user found with this email");
+  return user;
+};
 
 async function createUserInDB(params) {
   const response = await User.findOne({ email: params.email });
 
-  if (response) return "User already exists";
+  if (response) throw new Error("User already exists");
 
   try {
     const hashedPassword = await bcrypt.hash(params.password, 10);
     const resFromDB = await User.create({
       name: params.name,
       email: params.email,
+      avatar: params.avatar,
       nationality: params.nationality,
       password: hashedPassword,
     });
@@ -25,20 +33,16 @@ async function createUserInDB(params) {
 const authenticateUser = async (email, password) => {
   try {
     const user = await User.findOne({ email });
-    if (!user) {
-      throw new Error('No user found with this email');
-    }
+    if (!user) throw new Error("No user found with this email");
 
     const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
-      throw new Error('Incorrect password or email');
-    }
+    if (!passwordMatch) throw new Error("Incorrect password or email");
 
     // Generating JWT token
     const token = await generateJwtToken(user);
     return { token, user };
   } catch (error) {
-    throw new Error(`Authentication failed: ${error.message}`);
+    throw new Error(`${error.message}`);
   }
 };
 
@@ -69,4 +73,21 @@ async function followUnfollowUserInDB(userToBeFollowed, loggedInUser) {
   }
 }
 
-module.exports = { authenticateUser, createUserInDB, followUnfollowUserInDB };
+const getUsersBlogsFromDB = async (loggedInUser) => {
+  try {
+    const blogs = await Blogs.find({
+      Author: loggedInUser.toString(),
+    }).populate("Author");
+    return blogs;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+module.exports = {
+  userFromDB,
+  authenticateUser,
+  createUserInDB,
+  followUnfollowUserInDB,
+  getUsersBlogsFromDB,
+};
