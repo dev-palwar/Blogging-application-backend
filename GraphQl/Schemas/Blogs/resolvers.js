@@ -20,13 +20,12 @@ const blogResolvers = {
       return findBlogInDB(args.id);
     },
     createBlog: (_, args, { loggedInUser }) => {
-      // console.log(args.input);
       return createBlogInDB(args.input, loggedInUser.userId);
     },
     deleteBlog: (_, args, { loggedInUser }) => {
       return deleteBlogFromDB(args.id, loggedInUser.userId);
     },
-    upvoteOrDownvoteBlog: (_, args, { loggedInUser }) => {
+    upvoteOrUnvoteBlog: (_, args, { loggedInUser }) => {
       return updateBlogUpvotesInDB(args.blogId, loggedInUser.userId);
     },
     addCommentToBlog: (_, args, { loggedInUser }) => {

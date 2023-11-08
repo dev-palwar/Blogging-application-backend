@@ -14,19 +14,8 @@ const blogTypeDef = gql`
     createdAt: String!
   }
 
-  enum Category {
-    PROGRAMMING
-    ANIME
-    MEDIA
-    SELF_IMPROVEMENT
-    RELATIONSHIP
-    DARK
-    POLITICS
-    GAMING
-  }
-
   type Upvotes {
-    user: String!
+    user: User!
   }
 
   type Comment {
@@ -47,7 +36,7 @@ const blogTypeDef = gql`
     title: String!
     description: String!
     tags: [String]
-    category: [Category]
+    category: [Category!]!
   }
 
   input CommentInput {
@@ -63,15 +52,26 @@ const blogTypeDef = gql`
   type Query {
     getAllBlogs: [Blog]!
   }
-  
+
   type Mutation {
     findBlog(id: ID): Blog!
     createBlog(input: BlogInput!): Blog!
     deleteBlog(id: ID!): Response!
-    upvoteOrDownvoteBlog(blogId: ID!): Response!
+    upvoteOrUnvoteBlog(blogId: ID!): Boolean!
     addCommentToBlog(input: CommentInput!): Response!
     upvoteComment(blogId: ID!, commentId: ID!): Response!
     deleteCommentFromBlog(input: deleteCommentInput!): Response!
+  }
+
+  enum Category {
+    PROGRAMMING
+    ANIME
+    MEDIA
+    SELF_IMPROVEMENT
+    RELATIONSHIP
+    DARK
+    POLITICS
+    GAMING
   }
 `;
 

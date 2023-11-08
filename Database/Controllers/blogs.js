@@ -4,7 +4,7 @@ const User = require("../Models/Users");
 
 const getAllBlogsFromDB = async () => {
   try {
-    const blogs = await Blog.find().populate('Author');
+    const blogs = await Blog.find().populate("Author");
     return blogs;
   } catch (error) {
     console.log(error.message);
@@ -19,11 +19,12 @@ const findUsersBlog = async (blogId, loggedInUser) => {
 
 async function findBlogInDB(id) {
   try {
-    const resFromDB = await Blog.findById(id).populate('Author');
-    if (!resFromDB) throw new Error("Blog not found");
-    return resFromDB;
+    const blog = await Blog.findById(id)
+      .populate("Author")
+      .populate("upvotes.user");
+    return blog;
   } catch (error) {
-    throw new Error(`Failed to fetch blog with ID ${id}: ${error.message}`);
+    throw new Error(error.message);
   }
 }
 
@@ -49,10 +50,9 @@ async function createBlogInDB(blogObject, loggedInUser) {
 }
 
 async function updateBlogUpvotesInDB(blogId, loggedInUser) {
-  const blog = await findBlogInDB(blogId);
-  if (!blog) throw new Error("Blog not found");
-
   try {
+    const blog = await Blog.findById(blogId);
+
     const userLiked = blog.upvotes.find(
       (vote) => String(vote.user) === loggedInUser
     );
@@ -60,13 +60,13 @@ async function updateBlogUpvotesInDB(blogId, loggedInUser) {
     if (!userLiked) {
       blog.upvotes.push({ user: loggedInUser });
       await blog.save();
-      return sendResponse("blog upvoted", true);
+      return true;
     } else {
       blog.upvotes = blog.upvotes.filter(
         (vote) => String(vote.user) !== loggedInUser
       );
       await blog.save();
-      return sendResponse("blog upvote revoked", true);
+      return false;
     }
   } catch (error) {
     throw new Error(error.message);
