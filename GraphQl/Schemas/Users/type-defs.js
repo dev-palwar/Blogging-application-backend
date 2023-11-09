@@ -7,12 +7,18 @@ const userTypeDefs = gql`
     name: String!
     email: String!
     nationality: String!
-    createdAt: Int!
+    createdAt: String!
   }
 
-  type Query {
-    hello: String!
-    getUsersBlogs: [Blog]!
+  type Profile {
+    id: ID!
+    avatar: String
+    name: String!
+    email: String!
+    nationality: String
+    followers: [User]
+    following: [User]
+    blogs: [Blog]
   }
 
   input login {
@@ -33,10 +39,16 @@ const userTypeDefs = gql`
     user: User!
   }
 
+  type Query {
+    hello: String!
+    getUsersBlogs: [Blog]!
+    getProfile(userId: ID!): Profile!
+  }
+
   type Mutation {
     login(input: login!): AuthPayload!
-    signUp(input: signUp!): User
-    followUnfollowUser(id: ID!): Response
+    signUp(input: signUp!): User!
+    followUnfollowUser(id: ID!): Boolean!
   }
 `;
 

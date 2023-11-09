@@ -43,7 +43,9 @@ async function createBlogInDB(blogObject, loggedInUser) {
     user.blogs.push(resFromDB._id);
     await user.save();
     await resFromDB.save();
-    return resFromDB;
+    const populatedRes = await Blog.populate(resFromDB, { path: "Author" });
+    console.log(populatedRes);
+    return populatedRes;
   } catch (error) {
     throw new Error(`Error adding blog to the database:: ${error.message}`);
   }
@@ -75,21 +77,21 @@ async function updateBlogUpvotesInDB(blogId, loggedInUser) {
 
 async function addCommentToBlogInDB({ blogId, comment }, loggedInUser) {
   try {
-    let blog = await findBlogInDB(blogId);
+    let blog = await Blog.findById(blogId);
     blog.comments.push({ comment, user: loggedInUser });
     await blog.save();
-    return sendResponse("Comment added", true);
+    return true;
   } catch (error) {
-    throw new Error(error.message);
+    throw new Error("No blog found");
   }
 }
 
-async function upvoteCommentInDB({ blogId, commentId }, loggedInUser) {
+async function upvoteAndUnvoteCommentInDB({ blogId, commentId }, loggedInUser) {
   try {
-    const blog = await findBlogInDB(blogId);
+    const blog = await Blog.findById(blogId);
 
     const comment = blog.comments.id(commentId);
-    if (!comment) return sendResponse("Comment not found", false);
+    if (!comment) throw new Error("Comment not found");
 
     const upvotesArray = comment.upvotes.map((upvote) =>
       upvote.user.toString()
@@ -100,14 +102,14 @@ async function upvoteCommentInDB({ blogId, commentId }, loggedInUser) {
     if (userIndex !== -1) {
       comment.upvotes.splice(userIndex, 1);
       await blog.save();
-      return sendResponse("Comment upvote revoked", true);
+      return false;
     } else {
       comment.upvotes.push({ user: loggedInUser });
       await blog.save();
-      return sendResponse("Comment upvoted", true);
+      return true;
     }
   } catch (error) {
-    return sendResponse("Internal server error", false);
+    throw new Error("Internal server error" + error.message);
   }
 }
 
@@ -144,7 +146,7 @@ module.exports = {
   createBlogInDB,
   updateBlogUpvotesInDB,
   addCommentToBlogInDB,
-  upvoteCommentInDB,
+  upvoteAndUnvoteCommentInDB,
   deleteCommentFromBlogInDB,
   deleteBlogFromDB,
 };

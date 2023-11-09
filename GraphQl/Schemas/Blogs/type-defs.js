@@ -21,7 +21,7 @@ const blogTypeDef = gql`
   type Comment {
     id: ID!
     comment: String!
-    user: String!
+    user: User!
     upvotes: [Upvotes]
     createdAt: String!
   }
@@ -58,8 +58,8 @@ const blogTypeDef = gql`
     createBlog(input: BlogInput!): Blog!
     deleteBlog(id: ID!): Response!
     upvoteOrUnvoteBlog(blogId: ID!): Boolean!
-    addCommentToBlog(input: CommentInput!): Response!
-    upvoteComment(blogId: ID!, commentId: ID!): Response!
+    addCommentToBlog(input: CommentInput!): Boolean!
+    upvoteAndUnvoteComment(blogId: ID!, commentId: ID!): Boolean!
     deleteCommentFromBlog(input: deleteCommentInput!): Response!
   }
 

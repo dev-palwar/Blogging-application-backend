@@ -56,17 +56,17 @@ async function followUnfollowUserInDB(userToBeFollowed, loggedInUser) {
     );
 
     if (index == -1) {
-      user.following.push(user2._id);
-      user2.followers.push(user._id);
+      user.following.push(user2);
+      user2.followers.push(user);
       await user.save();
       await user2.save();
-      return sendResponse("User followed", true);
+      return true;
     } else {
       user.following.splice(index, 1);
       user2.followers.splice(index, 1);
       await user.save();
       await user2.save();
-      return sendResponse("User unfollowed", true);
+      return false;
     }
   } catch (error) {
     throw new Error("User not found");
@@ -84,7 +84,29 @@ const getUsersBlogsFromDB = async (loggedInUser) => {
   }
 };
 
+const getProfileFromDB = async (userId) => {
+  try {
+    const user = await User.findOne({ _id: userId })
+      .populate({
+        path: "blogs",
+        populate: [
+          { path: "Author" },
+          { path: "upvotes.user" },
+          { path: "comments.user" },
+          { path: "comments.upvotes.user" },
+        ],
+      })
+      .populate("following")
+      .populate("followers");
+
+    return user;
+  } catch (error) {
+    throw new Error("user not found");
+  }
+};
+
 module.exports = {
+  getProfileFromDB,
   userFromDB,
   authenticateUser,
   createUserInDB,

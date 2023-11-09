@@ -3,8 +3,8 @@ const {
   createUserInDB,
   followUnfollowUserInDB,
   getUsersBlogsFromDB,
+  getProfileFromDB,
 } = require("../../../Database/Controllers/users");
-const { sayHello } = require("../../../lib/temp");
 
 const userResolvers = {
   Query: {
@@ -13,6 +13,10 @@ const userResolvers = {
     },
     getUsersBlogs: (_, args, { loggedInUser }) => {
       return getUsersBlogsFromDB(loggedInUser.userId);
+    },
+    getProfile: async (_, args) => {
+      const user = await getProfileFromDB(args.userId);
+      return user;
     },
   },
 

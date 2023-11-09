@@ -23,23 +23,21 @@ const userSchema = new mongoose.Schema({
   blogs: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "blogs",
+      ref: "Blog",
     },
   ],
   followers: [
     {
       user: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
     },
   ],
   following: [
     {
-      user: {
-        type: String,
-        ref: "User",
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
   ],
   createdAt: {
