@@ -20,6 +20,7 @@ async function createUserInDB(params) {
     const resFromDB = await User.create({
       name: params.name,
       email: params.email,
+      bio: params.bio,
       avatar: params.avatar,
       nationality: params.nationality,
       password: hashedPassword,
@@ -101,7 +102,7 @@ const getProfileFromDB = async (userId) => {
 
     return user;
   } catch (error) {
-    throw new Error("user not found");
+    throw new Error("user not found" + error.message);
   }
 };
 

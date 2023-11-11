@@ -4,20 +4,23 @@ const userTypeDefs = gql`
   type User {
     id: ID!
     avatar: String
+    bio: String
     name: String!
     email: String!
     nationality: String!
     createdAt: String!
   }
-
+  
   type Profile {
     id: ID!
     avatar: String
     name: String!
+    bio: String
     email: String!
     nationality: String
     followers: [User]
     following: [User]
+    createdAt: String!
     blogs: [Blog]
   }
 
@@ -27,9 +30,10 @@ const userTypeDefs = gql`
   }
 
   input signUp {
-    name: String!
-    avatar: String
     email: String!
+    name: String!
+    bio: String
+    avatar: String
     password: String!
     nationality: String
   }

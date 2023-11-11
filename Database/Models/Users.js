@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     required: [true, "Please enter your name"],
   },
   avatar: String,
+  bio: String,
   email: {
     type: String,
     required: [true, "Please enter your email"],
@@ -28,10 +29,8 @@ const userSchema = new mongoose.Schema({
   ],
   followers: [
     {
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
   ],
   following: [

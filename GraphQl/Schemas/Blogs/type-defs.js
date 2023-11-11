@@ -51,10 +51,10 @@ const blogTypeDef = gql`
 
   type Query {
     getAllBlogs: [Blog]!
+    findBlog(id: ID): Blog!
   }
 
   type Mutation {
-    findBlog(id: ID): Blog!
     createBlog(input: BlogInput!): Blog!
     deleteBlog(id: ID!): Response!
     upvoteOrUnvoteBlog(blogId: ID!): Boolean!
