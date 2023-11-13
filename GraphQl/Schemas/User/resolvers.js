@@ -13,6 +13,10 @@ const userResolvers = {
     getProfile: (_, args) => {
       return getProfileFromDB(args.input);
     },
+    logout: (_, __, context) => {
+      context.logout();
+      return true;
+    },
   },
   Mutation: {
     signUp: (_, args) => {
@@ -25,10 +29,6 @@ const userResolvers = {
     },
     followUnfollowUser: (_, args, { loggedInUser }) => {
       return followUnfollowUserInDB(args.input, loggedInUser.userId);
-    },
-    logout: (_, __, context) => {
-      context.logout();
-      return true;
     },
   },
 };

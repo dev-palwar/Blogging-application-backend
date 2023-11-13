@@ -42,13 +42,13 @@ const userTypeDefs = gql`
   type Query {
     hello: String!
     getProfile(input: ID!): Profile!
+    logout: Boolean!
   }
 
   type Mutation {
     login(input: login!): AuthPayload!
     signUp(input: signUp!): Boolean!
     followUnfollowUser(input: ID!): Boolean!
-    logout(input: ID!): Boolean!
   }
 `;
 

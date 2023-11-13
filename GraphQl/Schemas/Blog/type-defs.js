@@ -28,7 +28,7 @@ const blogTypeDef = gql`
     getAllBlogs: [Blog]!
     findBlog(input: ID!): Blog!
   }
-
+  
   type Mutation {
     createBlog(input: BlogInput!): ID!
     deleteBlog(input: ID!): Boolean!

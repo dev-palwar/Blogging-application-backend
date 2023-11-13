@@ -6,12 +6,16 @@ const {
   upvoteUnvoteCommentInDB,
   deleteCommentFromBlogInDB,
   getBlog,
+  getAllBlogsFromDB,
 } = require("../../../Database/Controllers/blog");
 
 const blogResolvers = {
   Query: {
     findBlog: (_, args) => {
       return getBlog(args.input);
+    },
+    getAllBlogs: () => {
+      return getAllBlogsFromDB();
     },
   },
   Mutation: {

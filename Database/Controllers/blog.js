@@ -8,7 +8,7 @@ const createBlogInDB = async (blogData, loggedInUser) => {
       description: blogData.description,
       poster: blogData.poster,
       category: blogData.category,
-      author: loggedInUser, 
+      author: loggedInUser,
     });
 
     const savedBlog = await newBlog.save();
@@ -80,7 +80,7 @@ const addCommentToBlog = async (commentInput, loggedInUser) => {
     // Creates a new comment
     const newComment = {
       comment,
-      author: loggedInUser, 
+      author: loggedInUser,
     };
 
     blog.comments.push(newComment);
@@ -144,8 +144,8 @@ const deleteCommentFromBlogInDB = async (commentId, loggedInUser) => {
 const getBlog = async (blogId) => {
   try {
     const blog = await Blog.findById(blogId)
-      .populate("author", "name email avatar createdAt") 
-      .populate("upvotes", "name email avatar createdAt"); 
+      .populate("author", "name email avatar createdAt")
+      .populate("upvotes", "name email avatar createdAt");
 
     if (!blog) {
       throw new Error("Blog not found");
@@ -157,7 +157,22 @@ const getBlog = async (blogId) => {
   }
 };
 
+
+const getAllBlogsFromDB = async () => {
+  try {
+    // Retrieves all blogs from the database, populates the 'author' field, and sorts by createdAt in descending order
+    const blogs = await Blog.find()
+      .populate("author", "name email avatar createdAt")
+      .sort({ createdAt: -1 });
+
+    return blogs;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
+  getAllBlogsFromDB,
   getBlog,
   createBlogInDB,
   deleteBlogFromDB,
