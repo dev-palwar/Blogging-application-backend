@@ -1,5 +1,5 @@
 const dotenv = require("dotenv");
-const connectDatabase = require("./Database/Config");
+const connectDatabase = require("./Database/config");
 const graphqlInit = require("./GraphQl/server");
 
 // initializes enviorment variables

@@ -3,30 +3,23 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Please enter your name"],
+    required: true,
   },
-  avatar: String,
-  bio: String,
   email: {
     type: String,
-    required: [true, "Please enter your email"],
+    required: true,
     unique: true,
-  },
-  nationality: {
-    type: String,
-    required: [true, "Please enter where you are from"],
   },
   password: {
     type: String,
-    required: [true, "Please enter your password"],
-    minlength: [6, "Password must be at least 6 characters"],
+    required: true,
   },
-  blogs: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Blog",
-    },
-  ],
+  bio: {
+    type: String,
+  },
+  avatar: {
+    type: String,
+  },
   followers: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -39,9 +32,18 @@ const userSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
+  blogs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Blog",
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  nationality: {
+    type: String,
   },
 });
 

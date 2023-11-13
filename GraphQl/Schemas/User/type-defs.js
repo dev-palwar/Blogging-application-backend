@@ -2,26 +2,22 @@ const { gql } = require("apollo-server");
 
 const userTypeDefs = gql`
   type User {
-    id: ID!
+    id: ID
     avatar: String
-    bio: String
     name: String!
-    email: String!
-    nationality: String!
     createdAt: String!
   }
-  
+
   type Profile {
     id: ID!
-    avatar: String
     name: String!
-    bio: String
-    email: String!
+    avatar: String
     nationality: String
+    bio: String
     followers: [User]
     following: [User]
-    createdAt: String!
     blogs: [Blog]
+    createdAt: String!
   }
 
   input login {
@@ -30,12 +26,12 @@ const userTypeDefs = gql`
   }
 
   input signUp {
-    email: String!
     name: String!
-    bio: String
     avatar: String
+    email: String!
+    bio: String
     password: String!
-    nationality: String
+    nationality: String!
   }
 
   type AuthPayload {
@@ -45,14 +41,14 @@ const userTypeDefs = gql`
 
   type Query {
     hello: String!
-    getUsersBlogs: [Blog]!
-    getProfile(userId: ID!): Profile!
+    getProfile(input: ID!): Profile!
   }
 
   type Mutation {
     login(input: login!): AuthPayload!
-    signUp(input: signUp!): User!
-    followUnfollowUser(id: ID!): Boolean!
+    signUp(input: signUp!): Boolean!
+    followUnfollowUser(input: ID!): Boolean!
+    logout(input: ID!): Boolean!
   }
 `;
 

@@ -1,15 +1,15 @@
 const { ApolloServer } = require("apollo-server");
-const { userTypeDefs } = require("../GraphQl/Schemas/Users/type-defs");
-const { userResolvers } = require("../GraphQl/Schemas/Users/resolvers");
-const { blogTypeDef } = require("../GraphQl/Schemas/Blogs/type-defs");
-const { blogResolvers } = require("../GraphQl/Schemas/Blogs/resolvers");
-const { contextMiddleware } = require("./Middleware/contextMiddleware");
+const { userTypeDefs } = require("../GraphQl/Schemas/User/type-defs");
+const { userResolvers } = require("../GraphQl/Schemas/User/resolvers");
+const { blogTypeDef } = require("../GraphQl/Schemas/Blog/type-defs");
+const { blogResolvers } = require("../GraphQl/Schemas/Blog/resolvers");
+const { context } = require("./Middleware/context");
 
 const graphqlInit = () => {
   const server = new ApolloServer({
     typeDefs: [userTypeDefs, blogTypeDef],
     resolvers: [userResolvers, blogResolvers],
-    context: contextMiddleware
+    context: context,
   });
 
   server.listen().then(({ url }) => {
