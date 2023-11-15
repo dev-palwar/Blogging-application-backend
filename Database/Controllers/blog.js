@@ -18,7 +18,6 @@ const createBlogInDB = async (blogData, loggedInUser) => {
       $push: { blogs: savedBlog._id },
     });
 
-    console.log("Blog post added successfully:", savedBlog);
     return savedBlog._id;
   } catch (error) {
     console.error("Error adding blog post:", error.message);
