@@ -9,7 +9,15 @@ const blogTypeDef = gql`
     author: User!
     category: [Category!]
     upvotes: [User]
+    comments: [Comments]
     createdAt: String!
+  }
+
+  type Comments {
+    id: ID!
+    comment: String!
+    upvotes: [User]
+    author: User!
   }
 
   input BlogInput {
@@ -28,12 +36,12 @@ const blogTypeDef = gql`
     getAllBlogs: [Blog]!
     findBlog(input: ID!): Blog!
   }
-  
+
   type Mutation {
     createBlog(input: BlogInput!): ID!
     deleteBlog(input: ID!): Boolean!
     upvoteOrDownvoteBlog(input: ID!): Boolean!
-    addCommentToBlog(input: AddComment!): ID!
+    addCommentToBlog(input: AddComment!): Boolean!
     upvoteUnvoteComment(input: ID!): Boolean!
     deleteComment(input: ID!): Boolean!
   }

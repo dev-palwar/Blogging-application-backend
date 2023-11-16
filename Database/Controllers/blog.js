@@ -74,7 +74,7 @@ const addCommentToBlog = async (commentInput, loggedInUser) => {
 
     const blog = await Blog.findById(blogId);
 
-    if (!blog) throw new Error("Blog not found");
+    if (!blog) throw new Error("Comment not found");
 
     // Creates a new comment
     const newComment = {
@@ -143,19 +143,33 @@ const deleteCommentFromBlogInDB = async (commentId, loggedInUser) => {
 const getBlog = async (blogId) => {
   try {
     const blog = await Blog.findById(blogId)
-      .populate("author", "name email avatar createdAt")
-      .populate("upvotes", "name email avatar createdAt");
+      .populate({
+        path: "author",
+        select: "name avatar createdAt",
+      })
+      .populate({
+        path: "upvotes",
+        select: "name avatar createdAt",
+      })
+      .populate({
+        path: "comments",
+        populate: {
+          path: "upvotes author",
+          select: "name avatar createdAt",
+        },
+      });
 
     if (!blog) {
       throw new Error("Blog not found");
     }
+
+    console.log(blog);
     return blog;
   } catch (error) {
     console.error("Error getting blog by ID:", error.message);
     throw error;
   }
 };
-
 
 const getAllBlogsFromDB = async () => {
   try {

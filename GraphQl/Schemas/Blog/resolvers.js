@@ -20,9 +20,6 @@ const blogResolvers = {
   },
   Mutation: {
     createBlog: (_, args, { loggedInUser }) => {
-
-      // console.log(args);
-
       return createBlogInDB(args.input, loggedInUser.userId);
     },
     deleteBlog: (_, args, { loggedInUser }) => {
