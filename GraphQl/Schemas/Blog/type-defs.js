@@ -18,6 +18,7 @@ const blogTypeDef = gql`
     comment: String!
     upvotes: [User]
     author: User!
+    createdAt: String!
   }
 
   input BlogInput {
