@@ -13,7 +13,7 @@ const graphqlInit = () => {
   });
 
   server.listen().then(({ url }) => {
-    console.log(`Server running smooth at: ${url}`);
+    console.log("Server is all set");
   });
 };
 

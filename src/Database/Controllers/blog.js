@@ -29,9 +29,9 @@ const deleteBlogFromDB = async (blogId) => {
   try {
     const blog = await Blog.findById(blogId);
 
-    if (!blog) throw new Error("Blog not found");
+    if (!blog) throw new Error("This blog was deleted");
 
-    await Blog.findByIdAndRemove(blogId);
+    await Blog.findOneAndDelete({ _id: blogId });
 
     await User.findByIdAndUpdate(blog.author, { $pull: { blogs: blogId } });
 
@@ -41,6 +41,7 @@ const deleteBlogFromDB = async (blogId) => {
     throw error;
   }
 };
+
 
 const upvoteUnvoteBlogInDB = async (blogId, loggedInUser) => {
   try {
@@ -95,7 +96,7 @@ const upvoteUnvoteCommentInDB = async (commentId, loggedInUser) => {
   try {
     const blog = await Blog.findOne({ "comments._id": commentId });
 
-    if (!blog) throw new Error("Blog not found");
+    if (!blog) throw new Error("This comment was deleted");
 
     // Finds the comment by its ID within the found blog
     const foundComment = blog.comments.id(commentId);
@@ -126,13 +127,12 @@ const deleteCommentFromBlogInDB = async (commentId, loggedInUser) => {
   try {
     const blog = await Blog.findOne({ "comments._id": commentId });
 
-    if (!blog) throw new Error("Blog not found");
+    if (!blog) throw new Error("This comment was deleted");
 
     blog.comments.pull(commentId);
 
     const updatedBlog = await blog.save();
 
-    console.log("Comment deleted successfully");
     return true;
   } catch (error) {
     console.error("Error deleting comment:", error.message);
@@ -163,7 +163,6 @@ const getBlog = async (blogId) => {
       throw new Error("Blog not found");
     }
 
-    console.log(blog);
     return blog;
   } catch (error) {
     console.error("Error getting blog by ID:", error.message);
