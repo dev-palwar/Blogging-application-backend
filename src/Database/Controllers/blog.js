@@ -42,7 +42,6 @@ const deleteBlogFromDB = async (blogId) => {
   }
 };
 
-
 const upvoteUnvoteBlogInDB = async (blogId, loggedInUser) => {
   try {
     const blog = await Blog.findById(blogId);

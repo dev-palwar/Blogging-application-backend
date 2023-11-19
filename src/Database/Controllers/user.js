@@ -1,4 +1,3 @@
-const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const User = require("../Models/user");
 const { generateJwtToken } = require("../../Lib/jwt");
@@ -8,22 +7,15 @@ const getProfileFromDB = async (userId) => {
     const user = await User.findById(userId)
       .populate({
         path: "blogs",
-        select: "title description poster category createdAt",
-        populate: {
-          path: "upvotes",
-          select: "name email avatar createdAt",
-        },
-        populate: {
-          path: "author",
-          select: "name avatar createdAt",
-        },
+        select: "title description poster category upvotes createdAt",
+        populate: [
+          { path: "upvotes", select: "name email avatar createdAt" },
+          { path: "author", select: "name avatar createdAt" },
+        ],
       })
-      .populate("followers", "name email avatar")
-      .populate("following", "name email avatar");
+      .populate("followers following", "name email avatar");
 
-    if (!user) {
-      throw new Error("User not found");
-    }
+    if (!user) throw new Error("User not found");
 
     return user;
   } catch (error) {
@@ -37,7 +29,8 @@ const createUserInDB = async (userData) => {
     // Checks if the user with the provided email already exists
     const existingUser = await User.findOne({ email: userData.email });
 
-    if (existingUser) throw new Error("User with the provided email already exists");
+    if (existingUser)
+      throw new Error("User with the provided email already exists");
 
     // Hashes the password
     const hashedPassword = await bcrypt.hash(userData.password, 10);
@@ -88,7 +81,8 @@ const followUnfollowUserInDB = async (followingId, followerId) => {
     const follower = await User.findById(followerId);
     const following = await User.findById(followingId);
 
-    if (!follower || !following) throw new Error("Follower or following user not found");
+    if (!follower || !following)
+      throw new Error("Follower or following user not found");
 
     // Checks if the follower is already following the user
     const isAlreadyFollowing = follower.following.includes(followingId);
