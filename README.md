@@ -5,7 +5,7 @@ This is the backend of a Blogging appreciation.
 ## Features
 
 - **User Authentication:**
-  - Sign up and log in securely to manage your blog posts and interact with others.
+  - Sign up and login securely to manage your blog posts and interact with others.
   
 - **Blog Operations:**
   - Write and publish your blogs effortlessly.
@@ -43,7 +43,7 @@ This is the backend of a Blogging appreciation.
 
 3. **Configure environment variables**
 
-- Create a .env file based on .env.example and follow the instructions writting there
+- Create a .env file based on .env.example and follow the instructions written there
 
 4. **Run the server:**
 
@@ -51,9 +51,9 @@ This is the backend of a Blogging appreciation.
     npm start
 
 ## API Guide
-well this is pretty much self explanatory. All you have to do is run the server and then you can explore the GraphQL playground at: 
+well, this is pretty much self-explanatory. All you have to do is run the server and then you can explore the GraphQL playground at: 
     
-    ```bash
+    
     http://localhost:3000/graphql 
 
 ## Contributing
