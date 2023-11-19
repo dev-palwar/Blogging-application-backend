@@ -2,18 +2,6 @@
 
 This is the backend of a Blogging appreciation. 
 
-## Table of Contents
-
-- [Features](#features)
-  - [User Authentication](#user-authentication)
-  - [Blog Operations](#blog-operations)
-  - [Interactive Community](#interactive-community)
-  - [Discover More](#discover-more)
-- [Technologies Used](#technologies-used)
-- [Local Setup](#local-setup)
-- [API Guide](#api-guide)
-- [Contributing](#contributing)
-
 ## Features
 
 - **User Authentication:**
