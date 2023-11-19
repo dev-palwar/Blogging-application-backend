@@ -2,10 +2,22 @@
 
 This is the backend of a Blogging appreciation. 
 
+## Table of Contents
+
+- [Features](#features)
+  - [User Authentication](#user-authentication)
+  - [Blog Operations](#blog-operations)
+  - [Interactive Community](#interactive-community)
+  - [Discover More](#discover-more)
+- [Technologies Used](#technologies-used)
+- [Local Setup](#local-setup)
+- [API Guide](#api-guide)
+- [Contributing](#contributing)
+
 ## Features
 
 - **User Authentication:**
-  - Sign up and login securely to manage your blog posts and interact with others.
+  - Sign up and log in securely to manage your blog posts and interact with others.
   
 - **Blog Operations:**
   - Write and publish your blogs effortlessly.
@@ -43,7 +55,7 @@ This is the backend of a Blogging appreciation.
 
 3. **Configure environment variables**
 
-- Create a .env file based on .env.example and follow the instructions writing there
+- Create a .env file based on .env.example and follow the instructions writting there
 
 4. **Run the server:**
 
@@ -51,7 +63,7 @@ This is the backend of a Blogging appreciation.
     npm start
 
 ## API Guide
-well, this is pretty much self-explanatory. All you have to do is run the server and then you can explore the GraphQL playground at: 
+well this is pretty much self explanatory. All you have to do is run the server and then you can explore the GraphQL playground at: 
     
     ```bash
     http://localhost:3000/graphql 
@@ -64,7 +76,7 @@ _Fork the repository
 _Create a new branch for your feature or bug fix   
 _Make your changes and commit them   
 _Push to your branch    
-_Create a pull request  
+_Create pull request  
 
 > If you have any other questions or need further assistance, feel free to reach out to me on Twitter [@dev_palwar2](https://twitter.com/dev_palwar2).
 
