@@ -33,8 +33,8 @@ The Backend serves as the core infrastructure for a social networking platform. 
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/blog-backend.git
-   cd blog-backend
+   git@github.com:dev-palwar/Blogging-application-backend.git
+   cd Blogging-application-backend
 
 2. **Install dependencies:**
     ```bash
